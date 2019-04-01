@@ -17,7 +17,7 @@
  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
  * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ************************************************************************************************************/
@@ -194,7 +194,7 @@ create_temp_file()
     return fp;
 }
 
-int8_t *
+const int8_t *
 get_temp_path()
 {
 #ifdef _MSC_VER
@@ -209,7 +209,8 @@ get_temp_path()
     return szTempPath;
 #else
     static char tmp_path[] = P_tmpdir "/";
-    return tmp_path;
+    const char *tmpdir_env = getenv("TMPDIR");
+    return tmpdir_env ? (const int8_t *)tmpdir_env : (const int8_t *)tmp_path;
 #endif
 }
 

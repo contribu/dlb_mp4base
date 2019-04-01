@@ -17,7 +17,7 @@
  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
  * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ************************************************************************************************************/
@@ -88,7 +88,7 @@ uint32_t get_GCD(uint32_t a, uint32_t b);
 int64_t utc_sec_since_1970(void);
 
 FILE* create_temp_file(void);
-int8_t *get_temp_path(void);
+const int8_t *get_temp_path(void);
 
 /** Convert binary data in inbuf to ascii string in outbuf with binsize bytes in inbuf.
    outbuf size must be 2x of inbuf + 1. Note: no boundary check in this function */
@@ -109,7 +109,7 @@ struct progress_t_
     void (*show)(struct progress_t_ *h, int64_t size_done);
 };
 typedef struct progress_t_  progress_t;
-typedef progress_t *progress_handle_t; 
+typedef progress_t *progress_handle_t;
 
 progress_handle_t progress_create(const int8_t *title, int64_t size_total);
 
