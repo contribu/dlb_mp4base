@@ -719,7 +719,8 @@ ema_mp4_mux_set_input(ema_mp4_ctrl_handle_t handle,
                       int8_t *enc_name,
                       uint32_t time_scale,
                       uint32_t chunk_span_size,
-                      uint32_t tid)
+                      uint32_t tid,
+                      matrix_t matrix)
 {
     usr_cfg_es_t *usr_cfg_es;
 
@@ -779,6 +780,7 @@ ema_mp4_mux_set_input(ema_mp4_ctrl_handle_t handle,
     /** mark for add */
     usr_cfg_es->action = TRACK_EDIT_ACTION_ADD;
     usr_cfg_es->force_tkhd_flags = 1; // to enable track
+    usr_cfg_es->force_tkhd_matrix = matrix;
     handle->usr_cfg_mux.es_num++;
 
     return EMA_MP4_MUXED_OK;

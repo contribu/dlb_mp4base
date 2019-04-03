@@ -17,7 +17,7 @@
  * PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
  * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
  * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  ************************************************************************************************************/
@@ -28,12 +28,12 @@
  * ema_mp4_mux_api.h is the header file for the mp4muxer APIs.
  * In this header file, the APIs to create and destroy a multiplexer object
  * are defined. The API also defines methods to setup and start a
- * multiplexer object are also defined to multiplex input ES stream files 
+ * multiplexer object are also defined to multiplex input ES stream files
  * into an output .mp4 file.
  *
- * To multiplex ES files using the APIs, first call the ema_mp4_mux_create() to 
- * create a multiplexer object, then feed the ES files to the multiplexer for 
- * multiplexing with the ema_mp4_mux_set_input().  This function can be called 
+ * To multiplex ES files using the APIs, first call the ema_mp4_mux_create() to
+ * create a multiplexer object, then feed the ES files to the multiplexer for
+ * multiplexing with the ema_mp4_mux_set_input().  This function can be called
  * multiple times. Other optional parameters can be set with the ema_mp4_mux_set_*()
  * form method. Call ema_mp4_mux_start() to start multilplexing.
  * Finally, call the ema_mp4_mux_destroy() to destroy the multiplexer object after
@@ -45,9 +45,9 @@
  * (1) the API is non-reentrant.
  * (2) Only Windows version has been tested.
  * (3) Only file based input/output stream is supported.
- * (4) HEVC parser does not support open GOP, so timing inforing such as CTS and PTS 
+ * (4) HEVC parser does not support open GOP, so timing inforing such as CTS and PTS
  *     may not be accurate for Open GOP ES.
- * (5) More clean up of the code is under way.The code is being optimized and more 
+ * (5) More clean up of the code is under way.The code is being optimized and more
  *     funcitonalities will be added for the multiplexer.
  */
 
@@ -122,9 +122,9 @@ void ema_mp4_mux_destroy(ema_mp4_ctrl_handle_t handle);
  */
 uint32_t ema_mp4_mux_start(ema_mp4_ctrl_handle_t handle);
 
-/** \brief Supplies the file that contains elementary streams to the multiplexer 
- *         for multiplexing. This function can be called multiple times to supply 
- *         the ES one by one. Up to 100 streams are supported, subject to the 
+/** \brief Supplies the file that contains elementary streams to the multiplexer
+ *         for multiplexing. This function can be called multiple times to supply
+ *         the ES one by one. Up to 100 streams are supported, subject to the
  *         resource limits.
  *
  * \param handle: the multiplexer handle returned by the ema_mp4_mux_create()
@@ -155,13 +155,14 @@ uint32_t ema_mp4_mux_start(ema_mp4_ctrl_handle_t handle);
  * \param tid specify the track id to be selected. Zero means no selection (selected all).
  * \return EMA_MP4_MUXED_...
  */
-uint32_t ema_mp4_mux_set_input(ema_mp4_ctrl_handle_t handle, 
-                          int8_t  *fn, 
-                          int8_t  *lang, 
-                          int8_t  *enc_name, 
-                          uint32_t time_scale, 
-                          uint32_t chunk_span_size, 
-                          uint32_t tid);
+uint32_t ema_mp4_mux_set_input(ema_mp4_ctrl_handle_t handle,
+                          int8_t  *fn,
+                          int8_t  *lang,
+                          int8_t  *enc_name,
+                          uint32_t time_scale,
+                          uint32_t chunk_span_size,
+                          uint32_t tid,
+                          matrix_t matrix);
 
 /** \brief Defines the file name that contains the output mp4 file. The default name
  *         is test.mp4
@@ -185,8 +186,8 @@ uint32_t ema_mp4_mux_set_moov_timescale(ema_mp4_ctrl_handle_t handle, uint32_t t
  *
  * \param handle: the multiplexer handle returned by the ema_mp4_mux_create()
  * \param cmtimeh:
- * \param cmtimel:cmtimeh and cmtimel define a 64-bit number of seconds since 
- *                12:00 AM 01-01-1904. For eample, 0x0 and 0xc55b41a1 is 12-17-08 
+ * \param cmtimel:cmtimeh and cmtimel define a 64-bit number of seconds since
+ *                12:00 AM 01-01-1904. For eample, 0x0 and 0xc55b41a1 is 12-17-08
  *                10:29 AM. Without this option, the multiplexer uses the current time.
  * \return EMA_MP4_MUXED_...
  */
@@ -196,7 +197,7 @@ uint32_t ema_mp4_mux_set_cm_time(ema_mp4_ctrl_handle_t handle, uint32_t cmtimeh,
  *
  * \param handle: the multiplexer handle returned by the ema_mp4_mux_create()
  * \param chunk_span_time: The chunk span in millisecond. A value of 0 indicates
- *                          no chunk interleave. The default value is 250 ms. Chunk 
+ *                          no chunk interleave. The default value is 250 ms. Chunk
  *                          span is irrelevant when fragment is enabled.
  * \return EMA_MP4_MUXED_...
  */
@@ -272,20 +273,20 @@ uint32_t ema_mp4_mux_set_max_duration(ema_mp4_ctrl_handle_t handle, uint32_t max
  */
 uint32_t ema_mp4_mux_set_video_framerate(ema_mp4_ctrl_handle_t handle, uint32_t nome, uint32_t deno);
 
-/** \brief  Sets the DoVi ES mode 
+/** \brief  Sets the DoVi ES mode
  *
  * \param handle: the multiplexer handle returned by the ema_mp4_mux_create()
- * \param mode: DoVi ES can be: 
+ * \param mode: DoVi ES can be:
  *             'comb':  BL, EL, and RPU are combined into a single file(Default)
  *             'split': BL and EL+RPU are separated as two elementary stream files
  * \return EMA_MP4_MUXED_...
  */
 uint32_t ema_mp4_mux_set_dv_es_mode(ema_mp4_ctrl_handle_t handle, const int8_t *mode);
 
-/** \brief  Sets the DoVi profile value 
+/** \brief  Sets the DoVi profile value
  *
  * \param handle: the multiplexer handle returned by the ema_mp4_mux_create()
- * \param profile: A value of 0-9. Refer to the Dolby Vision Profiles Levels 
+ * \param profile: A value of 0-9. Refer to the Dolby Vision Profiles Levels
  *                 specification for detailed information.
  * \return EMA_MP4_MUXED_...
  */
